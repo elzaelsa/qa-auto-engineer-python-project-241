@@ -15,6 +15,7 @@ Gendiff - это утилита командной строки для срав�
 
 ## Requirements
 Python 3.10 or higher
+
 uv
 
 ## Installation
@@ -22,29 +23,44 @@ uv
 Clone the repository and install the project dependencies:
 
 git clone https://github.com/elzaelsa/qa-auto-engineer-python-project-241.git
+
 cd qa-auto-engineer-python-project-241
+
 make install
 
 ## Usage
 
 Сравнение 2-х json файлов:
+
 gendiff tests/test_data/file1.json tests/test_data/file2.json
 
 Сравнение 2-х YAML файлов YAML:
+
 gendiff tests/test_data/file1.yml tests/test_data/file2.yml
 
 stylish формать испольщуется по умолчанию.
 
 Также можно явно указать формат:
+
 gendiff -f stylish tests/test_data/file1.json tests/test_data/file2.json
 
 ## Development
 
 Run the linter:
+
 make lint
 
 Run tests:
+
 make test
 
 Run tests with coverage:
+
 make test-coverage
+
+## Демонстрация работы
+
+[![asciicast](https://asciinema.org/a/92iiilvG5mQUgtjH.svg)](https://asciinema.org/a/92iiilvG5mQUgtjH)
+
+[![asciicast](https://asciinema.org/a/SQTaKDVWCShE5Vla.svg)](https://asciinema.org/a/SQTaKDVWCShE5Vla)
+

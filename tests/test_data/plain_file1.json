@@ -1,0 +1,6 @@
+{
+  "host": "old.example.com",
+  "timeout": 50,
+  "follow": false,
+  "value": "something"
+}
