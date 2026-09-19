@@ -1,36 +1,67 @@
-import json
+from pathlib import Path
+
+from gendiff.formatters.stylish import stylish
+from gendiff.parser import parse
 
 
-def stringify(value):
-    if value is True:
-        return "true"
-    if value is False:
-        return "false"
-    return str(value)
+def generate_diff(file_path1, file_path2, formatter="stylish"):
+    data1 = read_file(file_path1)
+    data2 = read_file(file_path2)
+
+    diff = build_diff(data1, data2)
+
+    if formatter == "stylish":
+        return stylish(diff)
+
+    raise ValueError(f"Unknown formatter: {formatter}")
 
 
-def generate_diff(file_path1, file_path2):
-    with open(file_path1) as file:
-        data1 = json.load(file)
+def read_file(file_path):
+    extension = Path(file_path).suffix
 
-    with open(file_path2) as file:
-        data2 = json.load(file)
+    with open(file_path) as file:
+        content = file.read()
 
+    return parse(content, extension)
+
+
+def build_diff(data1, data2):
     keys = sorted(set(data1) | set(data2))
-
-    result = ["{"]
+    diff = []
 
     for key in keys:
         if key not in data2:
-            result.append(f"  - {key}: {stringify(data1[key])}")
+            diff.append(
+                {
+                    "key": key,
+                    "status": "removed",
+                    "value": data1[key],
+                }
+            )
         elif key not in data1:
-            result.append(f"  + {key}: {stringify(data2[key])}")
+            diff.append(
+                {
+                    "key": key,
+                    "status": "added",
+                    "value": data2[key],
+                }
+            )
         elif data1[key] == data2[key]:
-            result.append(f"    {key}: {stringify(data1[key])}")
+            diff.append(
+                {
+                    "key": key,
+                    "status": "unchanged",
+                    "value": data1[key],
+                }
+            )
         else:
-            result.append(f"  - {key}: {stringify(data1[key])}")
-            result.append(f"  + {key}: {stringify(data2[key])}")
+            diff.append(
+                {
+                    "key": key,
+                    "status": "changed",
+                    "old_value": data1[key],
+                    "new_value": data2[key],
+                }
+            )
 
-    result.append("}")
-
-    return "\n".join(result)
+    return diff

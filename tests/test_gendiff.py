@@ -18,6 +18,16 @@ def test_generate_diff():
     assert actual == expected
 
 
+def test_generate_diff_yaml():
+    file1 = get_fixture_path("file1.yml")
+    file2 = get_fixture_path("file2.yml")
+    expected = get_fixture_path("result.txt").read_text().strip()
+
+    actual = generate_diff(file1, file2)
+
+    assert actual == expected
+
+
 def test_main(monkeypatch, capsys):
     file1 = get_fixture_path("file1.json")
     file2 = get_fixture_path("file2.json")
@@ -25,6 +35,30 @@ def test_main(monkeypatch, capsys):
     monkeypatch.setattr(
         "sys.argv",
         ["gendiff", str(file1), str(file2)],
+    )
+
+    main()
+
+    captured = capsys.readouterr()
+
+    expected = get_fixture_path("result.txt").read_text().strip()
+
+    assert captured.out.strip() == expected
+
+
+def test_main_with_format(monkeypatch, capsys):
+    file1 = get_fixture_path("file1.json")
+    file2 = get_fixture_path("file2.json")
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "gendiff",
+            "-f",
+            "stylish",
+            str(file1),
+            str(file2),
+        ],
     )
 
     main()
