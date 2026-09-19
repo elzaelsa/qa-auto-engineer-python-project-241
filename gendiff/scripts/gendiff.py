@@ -1,5 +1,5 @@
 import argparse
-
+import json
 
 def main():
     parser = argparse.ArgumentParser(
@@ -13,8 +13,17 @@ def main():
         "--format",
         help="set format of output",
     )
-    parser.parse_args()
+    args = parser.parse_args()
+    
+    with open(args.first_file) as file:
+        first_data = json.load(file)
 
+    with open(args.second_file) as file:
+        second_data = json.load(file)
+
+    print(first_data)
+    print(second_data)
 
 if __name__ == "__main__":
     main()
+
