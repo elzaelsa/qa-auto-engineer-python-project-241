@@ -64,3 +64,4 @@ make test-coverage
 
 [![asciicast](https://asciinema.org/a/SQTaKDVWCShE5Vla.svg)](https://asciinema.org/a/SQTaKDVWCShE5Vla)
 
+[![asciicast](https://asciinema.org/a/QOAhH9E3L1GXiQGL.svg)](https://asciinema.org/a/QOAhH9E3L1GXiQGL)

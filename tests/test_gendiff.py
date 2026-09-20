@@ -102,3 +102,71 @@ def test_generate_diff_plain_values():
     actual = generate_diff(file1, file2, "plain")
 
     assert actual == expected
+
+
+def test_generate_diff_json():
+    file1 = get_fixture_path("file1.json")
+    file2 = get_fixture_path("file2.json")
+
+    actual = generate_diff(file1, file2, "json")
+
+    expected = [
+        {
+            "key": "follow",
+            "status": "removed",
+            "value": False,
+        },
+        {
+            "key": "host",
+            "status": "unchanged",
+            "value": "hexlet.io",
+        },
+        {
+            "key": "proxy",
+            "status": "removed",
+            "value": "123.234.53.22",
+        },
+        {
+            "key": "timeout",
+            "status": "changed",
+            "old_value": 50,
+            "new_value": 20,
+        },
+        {
+            "key": "verbose",
+            "status": "added",
+            "value": True,
+        },
+    ]
+
+    import json
+
+    assert json.loads(actual) == expected
+
+
+def test_main_with_json_format(monkeypatch, capsys):
+    file1 = get_fixture_path("file1.json")
+    file2 = get_fixture_path("file2.json")
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "gendiff",
+            "--format",
+            "json",
+            str(file1),
+            str(file2),
+        ],
+    )
+
+    main()
+
+    captured = capsys.readouterr()
+
+    import json
+
+    result = json.loads(captured.out)
+
+    assert result[0]["key"] == "follow"
+    assert result[0]["status"] == "removed"
+

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from gendiff.formatters.json import json_format
 from gendiff.formatters.plain import plain
 from gendiff.formatters.stylish import stylish
 from gendiff.parser import parse
@@ -16,6 +17,9 @@ def generate_diff(file_path1, file_path2, formatter="stylish"):
 
     if formatter == "plain":
         return plain(diff)
+    
+    if formatter == "json":
+        return json_format(diff)
 
     raise ValueError(f"Unknown formatter: {formatter}")
 
