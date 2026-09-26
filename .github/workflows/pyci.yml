@@ -25,6 +25,14 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
+      - name: Debug coverage config
+        run: |
+          pwd
+          echo "=== pyproject.toml ==="
+          cat pyproject.toml
+          echo "=== coverage config ==="
+          uv run coverage debug config
+
       - name: Lint
         run: make lint
 
