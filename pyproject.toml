@@ -29,4 +29,5 @@ dev = [
 fail_under = 80
 
 [tool.coverage.run]
+source = ["gendiff"]
 relative_files = true
