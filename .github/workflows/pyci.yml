@@ -38,13 +38,21 @@ jobs:
 
       - name: Test
         run: make test
-
-      - name: SonarQube Cloud Scan
-        uses: SonarSource/sonarqube-scan-action@v8.2.1
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  
+      - name: Remove old coverage files
+        run: |
+          rm -f coverage.xml
+          rm -f .coverage
+          
+      - name: Test coverage
+        run: make test-coverage    
 
       - name: Debug coverage
         run: |
           grep -o '<source>[^<]*</source>' coverage.xml
           grep -o 'filename="[^"]*"' coverage.xml | head -10
+
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
