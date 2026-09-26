@@ -27,3 +27,6 @@ dev = [
 
 [tool.coverage.report]
 fail_under = 80
+
+[tool.coverage.run]
+relative_files = true
