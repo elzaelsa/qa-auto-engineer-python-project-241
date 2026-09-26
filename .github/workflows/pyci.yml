@@ -35,3 +35,8 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v8.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Debug coverage
+        run: |
+          grep -o '<source>[^<]*</source>' coverage.xml
+          grep -o 'filename="[^"]*"' coverage.xml | head -10
