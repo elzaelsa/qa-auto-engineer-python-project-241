@@ -31,5 +31,7 @@ jobs:
       - name: Test
         run: make test
 
-      - name: Test coverage
-        run: make test-coverage
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
